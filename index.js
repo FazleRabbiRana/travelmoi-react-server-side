@@ -14,7 +14,11 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
 	try {
 		await client.connect();
-		
+
+		app.get('/destinations', async (req, res) => {
+			res.send('all destinations');
+		});
+
 	} finally {
 		// await client.close();
 	}
