@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
+const ObjectId = require('mongodb').ObjectId;
+require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -14,9 +16,22 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
 	try {
 		await client.connect();
+		const database = client.db('travelmoi_db');
+		const destinationsCollection = database.collection('destinations');
+		const featuresCollection = database.collection('features');
 
+		// Get API for all destinations
 		app.get('/destinations', async (req, res) => {
-			res.send('all destinations');
+			const cursor = destinationsCollection.find({});
+			const destinations = await cursor.toArray();
+			res.json(destinations);
+		});
+
+		// Get API for all features
+		app.get('/features', async (req, res) => {
+			const cursor = featuresCollection.find({});
+			const features = await cursor.toArray();
+			res.json(features);
 		});
 
 	} finally {
