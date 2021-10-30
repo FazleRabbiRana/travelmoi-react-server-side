@@ -28,6 +28,14 @@ async function run() {
 			res.json(destinations);
 		});
 
+		// Get API for individual destination
+		app.get('/destinations/:id', async (req, res) => {
+			const id = req.params.id;
+			const query = {_id: ObjectId(id)};
+			const destination = await destinationsCollection.findOne(query);
+			res.json(destination);
+		})
+
 		// Get API for all features
 		app.get('/features', async (req, res) => {
 			const cursor = featuresCollection.find({});
