@@ -17,9 +17,10 @@ async function run() {
 	try {
 		await client.connect();
 		const database = client.db('travelmoi_db');
-		const destinationsCollection = database.collection('destinations');
 		const featuresCollection = database.collection('features');
 		const factsCollection = database.collection('facts');
+		const destinationsCollection = database.collection('destinations');
+		const ordersCollection = database.collection('orders');
 
 		// Get API for all destinations
 		app.get('/destinations', async (req, res) => {
@@ -34,7 +35,21 @@ async function run() {
 			const query = {_id: ObjectId(id)};
 			const destination = await destinationsCollection.findOne(query);
 			res.json(destination);
-		})
+		});
+
+		// Post API to add an order
+		app.post('/orders', async (req, res) => {
+			const order = req.body;
+			const result = await ordersCollection.insertOne(order);
+			res.json(result);
+		});
+
+		// Get API for all orders
+		app.get('/orders', async (req, res) => {
+			const cursor = ordersCollection.find({});
+			const orders = await cursor.toArray();
+			res.json(orders);
+		});
 
 		// Get API for all features
 		app.get('/features', async (req, res) => {
