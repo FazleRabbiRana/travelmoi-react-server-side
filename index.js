@@ -19,6 +19,7 @@ async function run() {
 		const database = client.db('travelmoi_db');
 		const destinationsCollection = database.collection('destinations');
 		const featuresCollection = database.collection('features');
+		const factsCollection = database.collection('facts');
 
 		// Get API for all destinations
 		app.get('/destinations', async (req, res) => {
@@ -32,6 +33,13 @@ async function run() {
 			const cursor = featuresCollection.find({});
 			const features = await cursor.toArray();
 			res.json(features);
+		});
+
+		// Get API for all facts
+		app.get('/facts', async (req, res) => {
+			const cursor = factsCollection.find({});
+			const facts = await cursor.toArray();
+			res.json(facts);
 		});
 
 	} finally {
