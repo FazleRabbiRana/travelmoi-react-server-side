@@ -29,7 +29,7 @@ async function run() {
 			res.json(destinations);
 		});
 
-		// Get API for individual destination
+		// Get API for an individual destination
 		app.get('/destinations/:id', async (req, res) => {
 			const id = req.params.id;
 			const query = {_id: ObjectId(id)};
@@ -49,6 +49,22 @@ async function run() {
 			const cursor = ordersCollection.find({});
 			const orders = await cursor.toArray();
 			res.json(orders);
+		});
+
+		// Get API for an individual order
+		app.get('/orders/:id', async (req, res) => {
+			const id = req.params.id;
+			const query = {_id: ObjectId(id)};
+			const order = await ordersCollection.findOne(query);
+			res.json(order);
+		});
+
+		// Delete API for an individual order
+		app.delete('/orders/:id', async (req, res) => {
+			const id = req.params.id;
+			const query = {_id: ObjectId(id)};
+			const result = await ordersCollection.deleteOne(query);
+			res.json(result);
 		});
 
 		// Get API for all features
