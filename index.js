@@ -37,8 +37,8 @@ async function run() {
 			res.json(destination);
 		});
 
-		// Get API to add a destination
-		app.get('/destinations', async (req, res) => {
+		// Post API to add a destination
+		app.post('/destinations', async (req, res) => {
 			const destination = req.body;
 			const result = await destinationsCollection.insertOne(destination);
 			res.json(result);
