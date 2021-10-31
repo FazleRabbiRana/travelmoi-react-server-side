@@ -59,11 +59,26 @@ async function run() {
 			res.json(order);
 		});
 
-		// Delete API for an individual order
+		// Delete API to remove an individual order
 		app.delete('/orders/:id', async (req, res) => {
 			const id = req.params.id;
 			const query = {_id: ObjectId(id)};
 			const result = await ordersCollection.deleteOne(query);
+			res.json(result);
+		});
+
+		// Put API to update an individual order
+		app.put('/orders/:id', async (req, res) => {
+			const id = req.params.id;
+			const filter = {_id: ObjectId(id)};
+			const updatedProduct = req.body;
+			const options = { upsert: true };
+			const updateDoc = {
+				$set: {
+					status: updatedProduct.status,
+				},
+			};
+			const result = await ordersCollection.updateOne(filter, updateDoc, options);
 			res.json(result);
 		});
 
