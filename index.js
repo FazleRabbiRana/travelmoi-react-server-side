@@ -37,6 +37,13 @@ async function run() {
 			res.json(destination);
 		});
 
+		// Get API to add a destination
+		app.get('/destinations', async (req, res) => {
+			const destination = req.body;
+			const result = await destinationsCollection.insertOne(destination);
+			res.json(result);
+		});
+
 		// Post API to add an order
 		app.post('/orders', async (req, res) => {
 			const order = req.body;
