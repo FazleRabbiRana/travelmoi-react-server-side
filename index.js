@@ -44,6 +44,14 @@ async function run() {
 			res.json(result);
 		});
 
+		// Delete API to remove an individual destination
+		app.delete('/destinations/:id', async (req, res) => {
+			const id = req.params.id;
+			const query = {_id: ObjectId(id)};
+			const result = await destinationsCollection.deleteOne(query);
+			res.json(result);
+		});
+
 		// Post API to add an order
 		app.post('/orders', async (req, res) => {
 			const order = req.body;
